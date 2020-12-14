@@ -6,6 +6,7 @@ namespace ConsoleApplicationWorkingTime
 {
     class Day
     {
+        public DateTime Date { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public TimeSpan LunchInMin { get; set; } = new TimeSpan(0, 45, 0);
