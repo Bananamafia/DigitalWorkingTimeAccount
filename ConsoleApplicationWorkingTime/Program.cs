@@ -9,7 +9,11 @@ namespace ConsoleApplicationWorkingTime
     {
         static void Main(string[] args)
         {
-            RecordStartTime();
+            Console.WriteLine($"Gesamtsaldo: {GetTotatalBalance()}");
+            
+            //RecordEndTime();
+
+            //RecordStartTime();
         }
 
         static string fileName = @"C:\Users\maxim\Desktop\StempelUhr\Zeiten.txt";
@@ -64,6 +68,19 @@ namespace ConsoleApplicationWorkingTime
 
                 writer.Write($"{doubleDay.Date.ToString("dd.MM.yyyy")} | {doubleDay.StartTime.ToString("HH:mm:ss")} - ");
             }
+        }
+
+        static TimeSpan GetTotatalBalance()
+        {
+            TimeSpan reference = new TimeSpan(GetRecordedDays().Count() * 8, 0, 0);
+
+            TimeSpan actual = new TimeSpan(0, 0, 0);
+            foreach (Day day in GetRecordedDays())
+            {
+                actual += day.Balance;
+            }
+
+            return actual - reference;
         }
 
         static List<Day> GetRecordedDays()
