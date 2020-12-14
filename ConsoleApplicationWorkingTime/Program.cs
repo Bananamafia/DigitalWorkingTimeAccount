@@ -10,11 +10,6 @@ namespace ConsoleApplicationWorkingTime
         static void Main(string[] args)
         {
             RecordStartTime();
-
-            //foreach (var day in GetRecordedDays())
-            //{
-            //    Console.WriteLine($"{day.Date.ToString("dd.MM.yyy")} | {day.StartTime.ToString("hh.mm.ss")} - {day.EndTime.ToString("hh.mm.ss")} | Saldo: {day.Balance}");
-            //}
         }
 
         static string fileName = @"C:\Users\maxim\Desktop\StempelUhr\Zeiten.txt";
@@ -29,27 +24,46 @@ namespace ConsoleApplicationWorkingTime
                 using (StreamWriter writer = new StreamWriter(fileName, true))
                 {
                     writer.Write($"{startTime.ToString("dd.MM.yyyy")} | ");
-                    writer.Write($"{startTime.ToString("hh:mm:ss")} - ");
+                    writer.Write($"{startTime.ToString("HH:mm:ss")} - ");
                 }
 
                 Console.WriteLine("Startzeit wurde erfasst.");
             }
             else
             {
-                Console.WriteLine("Du warst heute schon mal online.");
+                Console.WriteLine("Du warst heute schon mal online. Willkommen zurück!");
+                RemoveEndTime();
             }
         }
 
-        static void RecordEndTime(int breakTime = 45)
+        static void RecordEndTime()
         {
             DateTime endTime = DateTime.Now;
 
             using (StreamWriter writer = new StreamWriter(fileName, true))
             {
-                writer.WriteLine(endTime.ToString("hh:mm:ss"));
+                writer.WriteLine(endTime.ToString("HH:mm:ss"));
             }
 
             Console.WriteLine("Endzeit wurde erfasst.");
+        }
+
+        static void RemoveEndTime()
+        {
+            List<Day> recordedDays = GetRecordedDays();
+
+            Day doubleDay = recordedDays.Find(x => x.Date == DateTime.Today);
+            recordedDays.Remove(doubleDay);
+
+            using (StreamWriter writer = new StreamWriter(fileName, false))
+            {
+                foreach (Day day in recordedDays)
+                {
+                    writer.WriteLine($"{day.Date.ToString("dd.MM.yyyy")} | {day.StartTime.ToString("HH:mm:ss")} - {day.EndTime.ToString("HH:mm:ss")}");
+                }
+
+                writer.Write($"{doubleDay.Date.ToString("dd.MM.yyyy")} | {doubleDay.StartTime.ToString("HH:mm:ss")} - ");
+            }
         }
 
         static List<Day> GetRecordedDays()
