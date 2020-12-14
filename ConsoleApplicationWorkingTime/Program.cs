@@ -9,7 +9,7 @@ namespace ConsoleApplicationWorkingTime
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(IsFirstTimeRecordToday());
+            RecordStartTime();
 
             //foreach (var day in GetRecordedDays())
             //{
@@ -24,15 +24,20 @@ namespace ConsoleApplicationWorkingTime
         {
             DateTime startTime = DateTime.Now;
 
-            //check if there was allready a starttime today if so, delete endtime of this set
-
-            using (StreamWriter writer = new StreamWriter(fileName, true))
+            if (IsFirstTimeRecordToday())
             {
-                writer.Write($"{startTime.ToString("dd.MM.yyyy")} | ");
-                writer.Write($"{startTime.ToString("hh:mm:ss")} - ");
-            }
+                using (StreamWriter writer = new StreamWriter(fileName, true))
+                {
+                    writer.Write($"{startTime.ToString("dd.MM.yyyy")} | ");
+                    writer.Write($"{startTime.ToString("hh:mm:ss")} - ");
+                }
 
-            Console.WriteLine("Startzeit wurde erfasst.");
+                Console.WriteLine("Startzeit wurde erfasst.");
+            }
+            else
+            {
+                Console.WriteLine("Du warst heute schon mal online.");
+            }
         }
 
         static void RecordEndTime(int breakTime = 45)
