@@ -9,10 +9,12 @@ namespace ConsoleApplicationWorkingTime
     {
         static void Main(string[] args)
         {
-            foreach (var day in GetRecordedDays())
-            {
-                //Console.WriteLine($"{day.Date.ToString("dd.MM.yyy")} | {day.StartTime.ToString("hh.mm.ss")} - {day.EndTime.ToString("hh.mm.ss")} | Saldo: {day.Balance}");
-            }
+            Console.WriteLine(IsFirstTimeRecordToday());
+
+            //foreach (var day in GetRecordedDays())
+            //{
+            //    Console.WriteLine($"{day.Date.ToString("dd.MM.yyy")} | {day.StartTime.ToString("hh.mm.ss")} - {day.EndTime.ToString("hh.mm.ss")} | Saldo: {day.Balance}");
+            //}
         }
 
         static string fileName = @"C:\Users\maxim\Desktop\StempelUhr\Zeiten.txt";
@@ -76,7 +78,7 @@ namespace ConsoleApplicationWorkingTime
 
         static bool IsFirstTimeRecordToday()
         {
-            return true;
+            return !GetRecordedDays().Exists(x => x.Date == DateTime.Today);
         }
     }
 }
