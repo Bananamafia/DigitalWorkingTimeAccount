@@ -19,7 +19,7 @@ namespace DesktopAppWorkingTime.ViewModels
             //    File.Create(LogOperations.fileName);
             //}
 
-            LogOperations.RecordStartTime();
+            //LogOperations.RecordStartTime();
             SystemEvents.SessionEnding += SystemEvents_SessionEnding;
         }
 
@@ -29,6 +29,18 @@ namespace DesktopAppWorkingTime.ViewModels
             System.Windows.Application.Current.Shutdown();
         }
 
+
+        private TimeSpan _currentBalance = LogOperations.GetTotatalBalance();
+
+        public TimeSpan CurrentBalance
+        {
+            get { return _currentBalance; }
+            set
+            {
+                _currentBalance = value;
+                OnPropertyChanged("CurrentBalance");
+            }
+        }
 
 
 
