@@ -7,24 +7,97 @@
         xmlns:vm="clr-namespace:DesktopAppWorkingTime.ViewModels"
         mc:Ignorable="d"
         Title="Stempeluhr"
-        Height="450"
-        Width="800">
+        Height="320"
+        Width="225">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="30px" />
+            <ColumnDefinition Width="10px" />
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="30px" />
+            <ColumnDefinition Width="10px" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="30px" />
+            <RowDefinition Height="10px" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="30px" />
+            <RowDefinition Height="10px" />
         </Grid.RowDefinitions>
 
 
-        <TextBlock Grid.Column="1"
-                   Grid.Row="1"
-                   Text="{Binding CurrentBalance}" />
+        <StackPanel Grid.Column="1"
+                    Grid.Row="1">
+
+            <DatePicker FontSize="20"
+                        SelectedDate="{Binding CurrentDate}" />
+
+            <StackPanel x:Name="BalanceStackPanel">
+                <TextBlock Margin="0,10,0,0"
+                           TextDecorations="underline"
+                           Text="Stundensaldo vor heute:" />
+                <StackPanel Margin="0,3,0,10"
+                            Orientation="Horizontal">
+                    <!--<TextBlock Text="{Binding CurrentBalance}" />-->
+                    <TextBlock Text="00:20:37" />
+                    <TextBlock Margin="3,0,0,0"
+                               Text="h" />
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel x:Name="StartTimeStackPanel">
+                <TextBlock TextDecorations="underline"
+                           Text="Eingestempelt um:" />
+
+                <StackPanel Orientation="Horizontal"
+                            Margin="0,3,0,10">
+                    <!--<TextBox
+                     Text="{Binding StartTimeHour}" />-->
+                    <TextBox Text="07" />
+                    <TextBlock Margin="2,0"
+                               Text=":" />
+                    <!--<TextBox
+                     Text="{Binding StartTimeMin}" />-->
+                    <TextBox Text="32" />
+                    <TextBlock Margin="3,0,0,0"
+                               Text="Uhr" />
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel x:Name="LunchTimeStackPanel">
+                <TextBlock TextDecorations="underline"
+                           Text="Mittagspause:" />
+                <StackPanel Orientation="Horizontal"
+                            Margin="0,3,0,10">
+                    <!--<TextBox Text="{Binding LunchInMin}" />-->
+                    <TextBox Text="45" />
+                    <TextBlock Margin="3,0"
+                               Text="min" />
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel x:Name="EndTimeStackPanel">
+                <TextBlock TextDecorations="underline"
+                           Text="Ausgestelmeplt um:" />
+
+                <StackPanel Orientation="Horizontal"
+                            Margin="0,3,0,10">
+                    <!--<TextBox
+                     Text="{Binding EndTimeHour}" />-->
+                    <TextBox Text="16" />
+                    <TextBlock Margin="2,0"
+                               Text=":" />
+                    <!--<TextBox
+                     Text="{Binding EndTimeMin}" />-->
+                    <TextBox Text="32" />
+                    <TextBlock Margin="3,0,0,0"
+                               Text="Uhr" />
+                </StackPanel>
+            </StackPanel>
+
+
+            <Button HorizontalAlignment="Center"
+                    Padding="7,3"
+                    Content="Update" />
+
+
+        </StackPanel>
 
     </Grid>
 </Window>
