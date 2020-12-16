@@ -19,9 +19,13 @@ namespace DesktopAppWorkingTime.Views
     /// </summary>
     public partial class MainView : Window
     {
+        private MainViewModel _viewModel;
+
         public MainView()
         {
             InitializeComponent();
+            _viewModel = new MainViewModel();
+            this.DataContext = _viewModel;
         }
     }
 }
