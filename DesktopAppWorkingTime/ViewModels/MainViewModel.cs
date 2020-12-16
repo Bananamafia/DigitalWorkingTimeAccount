@@ -4,10 +4,11 @@ using System.Text;
 using DesktopAppWorkingTime.Models;
 using Microsoft.Win32;
 using System.IO;
+using System.ComponentModel;
 
 namespace DesktopAppWorkingTime.ViewModels
 {
-    class MainViewModel
+    class MainViewModel : INotifyPropertyChanged
     {
         public MainViewModel()
         {
@@ -26,6 +27,19 @@ namespace DesktopAppWorkingTime.ViewModels
         {
             LogOperations.RecordEndTime();
             System.Windows.Application.Current.Shutdown();
+        }
+
+
+
+
+        //---INotifyPropertyChanged---
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged(string property)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(property));
+            }
         }
     }
 }

@@ -4,10 +4,27 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DesktopAppWorkingTime.Views"
-        xmlns:vm="clr-namespace:DesktopAppWorkingTime.ViewModels"        
+        xmlns:vm="clr-namespace:DesktopAppWorkingTime.ViewModels"
         mc:Ignorable="d"
-        Title="Stempeluhr" Height="450" Width="800">
+        Title="Stempeluhr"
+        Height="450"
+        Width="800">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="30px" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="30px" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30px" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="30px" />
+        </Grid.RowDefinitions>
+
+
+        <TextBlock Grid.Column="1"
+                   Grid.Row="1" 
+                   Text="{Binding }"/>
+
     </Grid>
 </Window>
