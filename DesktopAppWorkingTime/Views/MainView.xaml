@@ -34,8 +34,8 @@
                            Text="Stundensaldo vor heute:" />
                 <StackPanel Margin="0,3,0,10"
                             Orientation="Horizontal">
-                    <!--<TextBlock Text="{Binding CurrentBalance}" />-->
-                    <TextBlock Text="00:20:37" />
+                    <TextBlock Text="{Binding CurrentBalance}" />
+                    <!--<TextBlock Text="00:20:37" />-->
                     <TextBlock Margin="3,0,0,0"
                                Text="h" />
                 </StackPanel>
@@ -47,14 +47,14 @@
 
                 <StackPanel Orientation="Horizontal"
                             Margin="0,3,0,10">
-                    <!--<TextBox
-                     Text="{Binding StartTimeHour}" />-->
-                    <TextBox Text="07" />
+                    <TextBox Padding="2,0"
+                             Text="{Binding StartTimeHour}" />
+                    <!--<TextBox Text="07" />-->
                     <TextBlock Margin="2,0"
                                Text=":" />
-                    <!--<TextBox
-                     Text="{Binding StartTimeMin}" />-->
-                    <TextBox Text="32" />
+                    <TextBox Padding="2,0"
+                             Text="{Binding StartTimeMin}" />
+                    <!--<TextBox Text="32" />-->
                     <TextBlock Margin="3,0,0,0"
                                Text="Uhr" />
                 </StackPanel>
@@ -65,8 +65,9 @@
                            Text="Mittagspause:" />
                 <StackPanel Orientation="Horizontal"
                             Margin="0,3,0,10">
-                    <!--<TextBox Text="{Binding LunchInMin}" />-->
-                    <TextBox Text="45" />
+                    <TextBox Padding="2,0"
+                             Text="{Binding LunchInMin}" />
+                    <!--<TextBox Text="45" />-->
                     <TextBlock Margin="3,0"
                                Text="min" />
                 </StackPanel>
@@ -78,14 +79,14 @@
 
                 <StackPanel Orientation="Horizontal"
                             Margin="0,3,0,10">
-                    <!--<TextBox
-                     Text="{Binding EndTimeHour}" />-->
-                    <TextBox Text="16" />
+                    <TextBox Padding="2,0"
+                             Text="{Binding EndTimeHour}" />
+                    <!--<TextBox Text="16" />-->
                     <TextBlock Margin="2,0"
                                Text=":" />
-                    <!--<TextBox
-                     Text="{Binding EndTimeMin}" />-->
-                    <TextBox Text="32" />
+                    <TextBox Padding="2,0"
+                             Text="{Binding EndTimeMin}" />
+                    <!--<TextBox Text="32" />-->
                     <TextBlock Margin="3,0,0,0"
                                Text="Uhr" />
                 </StackPanel>
