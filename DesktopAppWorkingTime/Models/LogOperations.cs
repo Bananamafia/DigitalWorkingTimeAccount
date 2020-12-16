@@ -61,6 +61,8 @@ namespace DesktopAppWorkingTime.Models
 
         public static TimeSpan GetTotatalBalance()
         {
+            TimeSpan balance;
+
             TimeSpan reference = new TimeSpan(GetRecordedDays().Count() * 8, 0, 0);
 
             TimeSpan actual = new TimeSpan(0, 0, 0);
@@ -69,7 +71,8 @@ namespace DesktopAppWorkingTime.Models
                 actual += day.Balance;
             }
 
-            return actual - reference;
+            balance = actual - reference;
+            return new TimeSpan(balance.Hours, balance.Minutes, balance.Seconds);
         }
 
         public static List<Day> GetRecordedDays()
