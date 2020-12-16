@@ -80,7 +80,7 @@ namespace DesktopAppWorkingTime.Models
             TimeSpan balance;
             List<Day> recordedDaysWithoutToday = GetRecordedDays();
             recordedDaysWithoutToday.Remove(recordedDaysWithoutToday.Last());
-            
+
             TimeSpan reference = new TimeSpan(recordedDaysWithoutToday.Count() * 8, 0, 0);
 
             TimeSpan actual = new TimeSpan(0, 0, 0);
@@ -130,6 +130,19 @@ namespace DesktopAppWorkingTime.Models
             }
 
             return recordedDays;
+        }
+
+        public static Day GetSelectedDay(DateTime selectedDate)
+        {
+            if (GetRecordedDays().Exists(x => x.Date == selectedDate))
+            {
+                return GetRecordedDays().Find(x => x.Date == selectedDate);
+            }
+            else
+            {
+                return new Day();
+            }
+
         }
 
         public static bool IsFirstTimeRecordToday()
