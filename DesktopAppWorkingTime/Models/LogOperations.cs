@@ -75,6 +75,24 @@ namespace DesktopAppWorkingTime.Models
             return new TimeSpan(balance.Hours, balance.Minutes, balance.Seconds);
         }
 
+        public static TimeSpan GetBalanceExcludingToday()
+        {
+            TimeSpan balance;
+            List<Day> recordedDaysWithoutToday = GetRecordedDays();
+            recordedDaysWithoutToday.Remove(recordedDaysWithoutToday.Last());
+            
+            TimeSpan reference = new TimeSpan(recordedDaysWithoutToday.Count() * 8, 0, 0);
+
+            TimeSpan actual = new TimeSpan(0, 0, 0);
+            foreach (Day day in recordedDaysWithoutToday)
+            {
+                actual += day.Balance;
+            }
+
+            balance = actual - reference;
+            return new TimeSpan(balance.Hours, balance.Minutes, balance.Seconds);
+        }
+
         public static List<Day> GetRecordedDays()
         {
             List<string> lines = new List<string>();

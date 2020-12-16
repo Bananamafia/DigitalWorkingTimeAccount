@@ -30,7 +30,7 @@ namespace DesktopAppWorkingTime.ViewModels
         }
 
 
-        private TimeSpan _currentBalance = LogOperations.GetTotatalBalance();
+        private TimeSpan _currentBalance = LogOperations.GetBalanceExcludingToday();
 
         public TimeSpan CurrentBalance
         {
