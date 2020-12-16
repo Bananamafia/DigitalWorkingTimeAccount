@@ -9,7 +9,9 @@ namespace DesktopAppWorkingTime.Models
 {
     class LogOperations
     {
-        static string fileName = @"C:\Users\maxim\Desktop\StempelUhr\Zeiten.txt";
+        static string logPath = AppDomain.CurrentDomain.BaseDirectory;
+        //public static string fileName = $@"{logPath}\cache\log.txt";
+        public static string fileName = @"C:\Users\maxim\Desktop\StempelUhr\Zeiten.txt";
 
         public static void RecordStartTime()
         {
@@ -72,7 +74,17 @@ namespace DesktopAppWorkingTime.Models
 
         public static List<Day> GetRecordedDays()
         {
-            List<string> lines = File.ReadAllLines(fileName).ToList();
+            List<string> lines = new List<string>();
+
+            try
+            {
+                lines = File.ReadAllLines(fileName).ToList();
+            }
+            catch
+            {
+                return null;
+            }
+
             List<Day> recordedDays = new List<Day>();
 
 

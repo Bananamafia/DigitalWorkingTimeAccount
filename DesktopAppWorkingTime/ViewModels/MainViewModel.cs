@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using DesktopAppWorkingTime.Models;
 using Microsoft.Win32;
+using System.IO;
 
 namespace DesktopAppWorkingTime.ViewModels
 {
@@ -10,6 +11,13 @@ namespace DesktopAppWorkingTime.ViewModels
     {
         public MainViewModel()
         {
+            //Directory.CreateDirectory($@"{AppDomain.CurrentDomain.BaseDirectory}\cache");
+
+            //if (!File.Exists(LogOperations.fileName))
+            //{
+            //    File.Create(LogOperations.fileName);
+            //}
+
             LogOperations.RecordStartTime();
             SystemEvents.SessionEnding += SystemEvents_SessionEnding;
         }
