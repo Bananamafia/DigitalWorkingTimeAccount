@@ -13,11 +13,13 @@ namespace DesktopAppWorkingTime.ViewModels
     {
         public MainViewModel()
         {
-            //Directory.CreateDirectory($@"{AppDomain.CurrentDomain.BaseDirectory}\cache");
+            //string logPath = @$"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\Stempeluhr";
 
-            //if (!File.Exists(LogOperations.fileName))
+            //Directory.CreateDirectory(logPath);
+
+            //if (!File.Exists($@"{logPath}\log.txt"))
             //{
-            //    File.Create(LogOperations.fileName);
+            //    File.Create($@"{logPath}\log.txt");
             //}
 
             LogOperations.RecordStartTime();

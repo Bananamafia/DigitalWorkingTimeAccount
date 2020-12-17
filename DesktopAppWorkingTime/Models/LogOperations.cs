@@ -7,6 +7,9 @@ namespace DesktopAppWorkingTime.Models
 {
     class LogOperations
     {
+        //private static string logPath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\Stempeluhr";
+        //private static string fileName = $@"{logPath}\log.txt";
+
         static string logPath = AppDomain.CurrentDomain.BaseDirectory;
         //public static string fileName = $@"{logPath}\cache\log.txt";
         public static string fileName = @"C:\Users\maxim\Desktop\StempelUhr\Zeiten.txt";
