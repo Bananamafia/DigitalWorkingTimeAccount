@@ -23,6 +23,8 @@ namespace DesktopAppWorkingTime.ViewModels
             LogOperations.RecordStartTime();
 
             SystemEvents.SessionEnding += SystemEvents_SessionEnding;
+
+            SetUpTextBoxes();
         }
 
         private void SystemEvents_SessionEnding(object sender, SessionEndingEventArgs e)
@@ -31,7 +33,14 @@ namespace DesktopAppWorkingTime.ViewModels
             System.Windows.Application.Current.Shutdown();
         }
 
-
+        private void SetUpTextBoxes()
+        {
+            _startTimeHour = LogOperations.GetSelectedDay(CurrentDate).StartTime.ToString("HH");
+            _startTimeMin = LogOperations.GetSelectedDay(CurrentDate).StartTime.ToString("mm");
+            _lunchInMin = LogOperations.GetSelectedDay(CurrentDate).LunchInMin.Minutes;
+            _endTimeHour = LogOperations.GetSelectedDay(CurrentDate).EndTime.ToString("HH");
+            _endTimeMin = LogOperations.GetSelectedDay(CurrentDate).EndTime.ToString("mm");
+        }
 
         //---Properties---
         private DateTime _currentDate = DateTime.Today;
@@ -41,6 +50,8 @@ namespace DesktopAppWorkingTime.ViewModels
             set
             {
                 _currentDate = value;
+                SetUpTextBoxes();
+
                 OnPropertyChanged("CurrentDate");
                 OnPropertyChanged("StartTimeHour");
                 OnPropertyChanged("StartTimeMin");
@@ -67,7 +78,6 @@ namespace DesktopAppWorkingTime.ViewModels
         {
             get
             {
-                _startTimeHour = LogOperations.GetSelectedDay(CurrentDate).StartTime.ToString("HH");
                 return _startTimeHour;
             }
             set
@@ -83,7 +93,6 @@ namespace DesktopAppWorkingTime.ViewModels
         {
             get
             {
-                _startTimeMin = LogOperations.GetSelectedDay(CurrentDate).StartTime.ToString("mm");
                 return _startTimeMin;
             }
             set
@@ -99,7 +108,6 @@ namespace DesktopAppWorkingTime.ViewModels
         {
             get
             {
-                _lunchInMin = LogOperations.GetSelectedDay(CurrentDate).LunchInMin.Minutes;
                 return _lunchInMin;
             }
             set
@@ -115,7 +123,6 @@ namespace DesktopAppWorkingTime.ViewModels
         {
             get
             {
-                _endTimeHour = LogOperations.GetSelectedDay(CurrentDate).EndTime.ToString("HH");
                 return _endTimeHour;
             }
             set
@@ -131,12 +138,11 @@ namespace DesktopAppWorkingTime.ViewModels
         {
             get
             {
-                _endTimeMin = LogOperations.GetSelectedDay(CurrentDate).EndTime.ToString("mm");
                 return _endTimeMin;
             }
             set
             {
-                _startTimeMin = value;
+                _endTimeMin = value;
                 OnPropertyChanged("EndTimeMin");
                 OnPropertyChanged("CurrentBalance");
             }
