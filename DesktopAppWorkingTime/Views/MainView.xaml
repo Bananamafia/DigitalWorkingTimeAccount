@@ -95,7 +95,8 @@
 
             <Button HorizontalAlignment="Center"
                     Padding="7,3"
-                    Content="Update" />
+                    Content="Update"
+                    Command="{Binding UpdateTimesCommand}" />
 
 
         </StackPanel>

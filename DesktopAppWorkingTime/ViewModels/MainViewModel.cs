@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using DesktopAppWorkingTime.Models;
+using DesktopAppWorkingTime.ViewModels.Commands;
 using Microsoft.Win32;
 using System.IO;
 using System.ComponentModel;
@@ -33,6 +34,9 @@ namespace DesktopAppWorkingTime.ViewModels
             System.Windows.Application.Current.Shutdown();
         }
 
+
+
+        //---Properties---
         private DateTime _currentDate = DateTime.Today;
         public DateTime CurrentDate
         {
@@ -46,6 +50,7 @@ namespace DesktopAppWorkingTime.ViewModels
                 OnPropertyChanged("LunchInMin");
                 OnPropertyChanged("EndTimeHour");
                 OnPropertyChanged("EndTimeMin");
+                OnPropertyChanged("UpdateTimesCommand");
             }
         }
 
@@ -137,6 +142,17 @@ namespace DesktopAppWorkingTime.ViewModels
                 _startTimeMin = value;
                 OnPropertyChanged("EndTimeMin");
                 OnPropertyChanged("CurrentBalance");
+            }
+        }
+
+        //---Commands---
+        private UpdateTimesCommand _updateTimesCommand;
+        public UpdateTimesCommand UpdateTimesCommand
+        {
+            get
+            {
+                _updateTimesCommand = new UpdateTimesCommand(LogOperations.GetSelectedDay(CurrentDate));
+                return _updateTimesCommand;
             }
         }
 
