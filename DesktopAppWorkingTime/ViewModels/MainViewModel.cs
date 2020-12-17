@@ -19,7 +19,7 @@ namespace DesktopAppWorkingTime.ViewModels
             //    File.Create(LogOperations.fileName);
             //}
 
-            if(!LogOperations.GetRecordedDays().Exists(x => x.Date == DateTime.Today))
+            if (!LogOperations.GetRecordedDays().Exists(x => x.Date == DateTime.Today))
             {
                 LogOperations.RecordStartTime();
             }
@@ -33,14 +33,19 @@ namespace DesktopAppWorkingTime.ViewModels
             System.Windows.Application.Current.Shutdown();
         }
 
-        private static DateTime _currentDate = DateTime.Today;
-        public static DateTime CurrentDate
+        private DateTime _currentDate = DateTime.Today;
+        public DateTime CurrentDate
         {
             get { return _currentDate; }
             set
             {
                 _currentDate = value;
-                //OnPropertyChanged("CurrentDate");
+                OnPropertyChanged("CurrentDate");
+                OnPropertyChanged("StartTimeHour");
+                OnPropertyChanged("StartTimeMin");
+                OnPropertyChanged("LunchInMin");
+                OnPropertyChanged("EndTimeHour");
+                OnPropertyChanged("EndTimeMin");
             }
         }
 
@@ -55,10 +60,14 @@ namespace DesktopAppWorkingTime.ViewModels
             }
         }
 
-        private string _startTimeHour = LogOperations.GetSelectedDay(CurrentDate).StartTime.ToString("HH");
+        private string _startTimeHour;
         public string StartTimeHour
         {
-            get { return _startTimeHour; }
+            get
+            {
+                _startTimeHour = LogOperations.GetSelectedDay(CurrentDate).StartTime.ToString("HH");
+                return _startTimeHour;
+            }
             set
             {
                 _startTimeHour = value;
@@ -67,10 +76,14 @@ namespace DesktopAppWorkingTime.ViewModels
             }
         }
 
-        private string _startTimeMin = LogOperations.GetSelectedDay(CurrentDate).StartTime.ToString("mm");
+        private string _startTimeMin;
         public string StartTimeMin
         {
-            get { return _startTimeMin; }
+            get
+            {
+                _startTimeMin = LogOperations.GetSelectedDay(CurrentDate).StartTime.ToString("mm");
+                return _startTimeMin;
+            }
             set
             {
                 _startTimeMin = value;
@@ -79,10 +92,14 @@ namespace DesktopAppWorkingTime.ViewModels
             }
         }
 
-        private int _lunchInMin = LogOperations.GetSelectedDay(CurrentDate).LunchInMin.Minutes;
+        private int _lunchInMin;
         public int LunchInMin
         {
-            get { return _lunchInMin; }
+            get
+            {
+                _lunchInMin = LogOperations.GetSelectedDay(CurrentDate).LunchInMin.Minutes;
+                return _lunchInMin;
+            }
             set
             {
                 _lunchInMin = value;
@@ -91,10 +108,14 @@ namespace DesktopAppWorkingTime.ViewModels
             }
         }
 
-        private string _endTimeHour = LogOperations.GetSelectedDay(CurrentDate).EndTime.ToString("HH");
+        private string _endTimeHour;
         public string EndTimeHour
         {
-            get { return _endTimeHour; }
+            get
+            {
+                _endTimeHour = LogOperations.GetSelectedDay(CurrentDate).EndTime.ToString("HH");
+                return _endTimeHour;
+            }
             set
             {
                 _endTimeHour = value;
@@ -103,10 +124,14 @@ namespace DesktopAppWorkingTime.ViewModels
             }
         }
 
-        private string _endTimeMin = LogOperations.GetSelectedDay(CurrentDate).EndTime.ToString("mm");
+        private string _endTimeMin;
         public string EndTimeMin
         {
-            get { return _endTimeMin; }
+            get
+            {
+                _endTimeMin = LogOperations.GetSelectedDay(CurrentDate).EndTime.ToString("mm");
+                return _endTimeMin;
+            }
             set
             {
                 _startTimeMin = value;
