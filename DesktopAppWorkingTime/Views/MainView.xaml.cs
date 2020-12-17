@@ -2,6 +2,7 @@
 using DesktopAppWorkingTime.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -26,6 +27,16 @@ namespace DesktopAppWorkingTime.Views
             InitializeComponent();
             _viewModel = new MainViewModel();
             this.DataContext = _viewModel;
+        }
+
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            e.Cancel = true;
+
+            this.WindowState = WindowState.Minimized;
+
+            base.OnClosing(e);
         }
     }
 }
