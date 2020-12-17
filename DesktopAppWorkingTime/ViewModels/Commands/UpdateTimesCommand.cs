@@ -26,15 +26,7 @@ namespace DesktopAppWorkingTime.ViewModels.Commands
 
         public void Execute(object parameter)
         {
-            //if Exists:
-            //Find Row
-            //Overwrite Row with values of TextBoxes --> Carefull with Endtime
-            //else:
-            //Insert Line with values of TextBoxes
-
-
-            MessageBox.Show(SelectedDay.Date.ToString());
-            //throw new NotImplementedException();
+            LogOperations.UpdateDay(SelectedDay);
         }
     }
 }

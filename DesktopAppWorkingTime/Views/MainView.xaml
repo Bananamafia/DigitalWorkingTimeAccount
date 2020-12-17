@@ -29,9 +29,16 @@
                         SelectedDate="{Binding CurrentDate}" />
 
             <StackPanel x:Name="BalanceStackPanel">
-                <TextBlock Margin="0,10,0,0"
-                           TextDecorations="underline"
-                           Text="Stundensaldo vor heute:" />
+                <StackPanel Orientation="Horizontal"
+                            Margin="0,10,0,0">
+                    <TextBlock TextDecorations="underline"
+                               Text="Stundensaldo vom" />
+                    <TextBlock Padding="1,0"
+                        TextDecorations="underline"
+                               Text="{Binding YesterdaysDate}" />
+                    <TextBlock TextDecorations="underline"
+                               Text=":" />
+                </StackPanel>
                 <StackPanel Margin="0,3,0,10"
                             Orientation="Horizontal">
                     <TextBlock Text="{Binding CurrentBalance}" />
@@ -65,7 +72,8 @@
                            Text="Mittagspause:" />
                 <StackPanel Orientation="Horizontal"
                             Margin="0,3,0,10">
-                    <TextBox Padding="2,0"
+                    <TextBox IsEnabled="False"
+                             Padding="2,0"
                              Text="{Binding LunchInMin}" />
                     <!--<TextBox Text="45" />-->
                     <TextBlock Margin="3,0"

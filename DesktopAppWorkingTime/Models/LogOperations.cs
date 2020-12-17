@@ -162,15 +162,19 @@ namespace DesktopAppWorkingTime.Models
         public static void UpdateDay(Day updatedDay)
         {
             List<Day> recordedDays = GetRecordedDays();
-            Day currentDay = GetSelectedDay(DateTime.Now);
+            Day currentDay = GetSelectedDay(DateTime.Today);
             recordedDays.RemoveAll(x => x.Date == updatedDay.Date || x.Date == currentDay.Date);
 
             if (!(updatedDay.Date == DateTime.Today))
             {
                 recordedDays.Add(updatedDay);
             }
+            else
+            {
+                currentDay = updatedDay;
+            }
 
-            recordedDays.OrderBy(x => x.Date);
+            recordedDays = recordedDays.OrderBy(x => x.Date).ToList();
 
             using (StreamWriter writer = new StreamWriter(fileName, false))
             {

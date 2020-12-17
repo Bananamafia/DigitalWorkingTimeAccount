@@ -35,14 +35,19 @@ namespace DesktopAppWorkingTime.ViewModels
 
         private void SetUpTextBoxes()
         {
+            _currentBalance = LogOperations.GetBalanceExcludingToday();
+
             _startTimeHour = LogOperations.GetSelectedDay(CurrentDate).StartTime.ToString("HH");
             _startTimeMin = LogOperations.GetSelectedDay(CurrentDate).StartTime.ToString("mm");
+
             _lunchInMin = LogOperations.GetSelectedDay(CurrentDate).LunchInMin.Minutes;
+
             _endTimeHour = LogOperations.GetSelectedDay(CurrentDate).EndTime.ToString("HH");
             _endTimeMin = LogOperations.GetSelectedDay(CurrentDate).EndTime.ToString("mm");
         }
 
         //---Properties---
+        public string YesterdaysDate { get; set; } = (DateTime.Today - new TimeSpan(1, 0, 0, 0)).ToString("dd.MM.yyy");
         private DateTime _currentDate = DateTime.Today;
         public DateTime CurrentDate
         {
@@ -53,16 +58,21 @@ namespace DesktopAppWorkingTime.ViewModels
                 SetUpTextBoxes();
 
                 OnPropertyChanged("CurrentDate");
+                OnPropertyChanged("CurrentBalance");
+
                 OnPropertyChanged("StartTimeHour");
                 OnPropertyChanged("StartTimeMin");
+
                 OnPropertyChanged("LunchInMin");
+
                 OnPropertyChanged("EndTimeHour");
                 OnPropertyChanged("EndTimeMin");
+
                 OnPropertyChanged("UpdateTimesCommand");
             }
         }
 
-        private TimeSpan _currentBalance = LogOperations.GetBalanceExcludingToday();
+        private TimeSpan _currentBalance;
         public TimeSpan CurrentBalance
         {
             get { return _currentBalance; }
@@ -84,6 +94,7 @@ namespace DesktopAppWorkingTime.ViewModels
             {
                 _startTimeHour = value;
                 OnPropertyChanged("StartTimeHour");
+                OnPropertyChanged("UpdateTimesCommand");
                 OnPropertyChanged("CurrentBalance");
             }
         }
@@ -99,6 +110,7 @@ namespace DesktopAppWorkingTime.ViewModels
             {
                 _startTimeMin = value;
                 OnPropertyChanged("StartTimeMin");
+                OnPropertyChanged("UpdateTimesCommand");
                 OnPropertyChanged("CurrentBalance");
             }
         }
@@ -114,6 +126,7 @@ namespace DesktopAppWorkingTime.ViewModels
             {
                 _lunchInMin = value;
                 OnPropertyChanged("LunchInMin");
+                OnPropertyChanged("UpdateTimesCommand");
                 OnPropertyChanged("CurrentBalance");
             }
         }
@@ -129,6 +142,7 @@ namespace DesktopAppWorkingTime.ViewModels
             {
                 _endTimeHour = value;
                 OnPropertyChanged("EndTimeHour");
+                OnPropertyChanged("UpdateTimesCommand");
                 OnPropertyChanged("CurrentBalance");
             }
         }
@@ -144,6 +158,7 @@ namespace DesktopAppWorkingTime.ViewModels
             {
                 _endTimeMin = value;
                 OnPropertyChanged("EndTimeMin");
+                OnPropertyChanged("UpdateTimesCommand");
                 OnPropertyChanged("CurrentBalance");
             }
         }
@@ -154,7 +169,12 @@ namespace DesktopAppWorkingTime.ViewModels
         {
             get
             {
-                _updateTimesCommand = new UpdateTimesCommand(LogOperations.GetSelectedDay(CurrentDate));
+                DateTime StartTime = new DateTime(CurrentDate.Year, CurrentDate.Month, CurrentDate.Day, Convert.ToInt32(StartTimeHour), Convert.ToInt32(StartTimeMin), 0);
+                DateTime EndTime = new DateTime(CurrentDate.Year, CurrentDate.Month, CurrentDate.Day, Convert.ToInt32(EndTimeHour), Convert.ToInt32(EndTimeMin), 0);
+                TimeSpan LunchTime = new TimeSpan(0, LunchInMin, 0);
+
+                _updateTimesCommand = new UpdateTimesCommand(new Day { Date = CurrentDate, StartTime = StartTime, EndTime = EndTime, LunchInMin = LunchTime });
+
                 return _updateTimesCommand;
             }
         }
