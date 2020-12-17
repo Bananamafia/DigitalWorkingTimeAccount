@@ -1,9 +1,7 @@
-﻿using DesktopAppWorkingTime.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace DesktopAppWorkingTime.Models
 {
@@ -164,16 +162,23 @@ namespace DesktopAppWorkingTime.Models
         public static void UpdateDay(Day updatedDay)
         {
             List<Day> recordedDays = GetRecordedDays();
-            recordedDays.Find(x => x.Date == updatedDay.Date);
-            recordedDays.Add(updatedDay);
+            Day currentDay = GetSelectedDay(DateTime.Now);
+            recordedDays.RemoveAll(x => x.Date == updatedDay.Date || x.Date == currentDay.Date);
+
+            if (!(updatedDay.Date == DateTime.Today))
+            {
+                recordedDays.Add(updatedDay);
+            }
+
             recordedDays.OrderBy(x => x.Date);
 
             using (StreamWriter writer = new StreamWriter(fileName, false))
             {
                 foreach (Day day in recordedDays)
                 {
-                    writer.WriteLine();
+                    writer.WriteLine(FullDayLogString(day));
                 }
+                writer.Write(CurrentDayLogString(currentDay));
             }
         }
     }
