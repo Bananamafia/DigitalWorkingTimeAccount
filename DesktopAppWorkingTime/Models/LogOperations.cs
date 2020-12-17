@@ -13,16 +13,25 @@ namespace DesktopAppWorkingTime.Models
         //public static string fileName = $@"{logPath}\cache\log.txt";
         public static string fileName = @"C:\Users\maxim\Desktop\StempelUhr\Zeiten.txt";
 
+        private static string FullDayLogString(Day selectedDay)
+        {
+            return $"{selectedDay.Date.ToString("dd.MM.yyyy")} | {selectedDay.StartTime.ToString("HH:mm:ss")} - {selectedDay.EndTime.ToString("HH:mm:ss")}";
+        }
+
+        private static string CurrentDayLogString(Day selectedDay)
+        {
+            return $"{selectedDay.Date.ToString("dd.MM.yyyy")} | {selectedDay.StartTime.ToString("HH:mm:ss")} - ";
+        }
+
         public static void RecordStartTime()
         {
-            DateTime startTime = DateTime.Now;
+            Day newDay = new Day { Date = DateTime.Today, StartTime = DateTime.Now };
 
             if (IsFirstTimeRecordToday())
             {
                 using (StreamWriter writer = new StreamWriter(fileName, true))
                 {
-                    writer.Write($"{startTime.ToString("dd.MM.yyyy")} | ");
-                    writer.Write($"{startTime.ToString("HH:mm:ss")} - ");
+                    writer.Write(CurrentDayLogString(newDay));
                 }
             }
             else
@@ -45,17 +54,19 @@ namespace DesktopAppWorkingTime.Models
         {
             List<Day> recordedDays = GetRecordedDays();
 
-            Day doubleDay = recordedDays.Find(x => x.Date == DateTime.Today);
-            recordedDays.Remove(doubleDay);
+            Day doubleDay = GetSelectedDay(DateTime.Today);
+
+            recordedDays.RemoveAll(x => x.Date == doubleDay.Date);
+            recordedDays = recordedDays.OrderBy(x => x.Date).ToList();
 
             using (StreamWriter writer = new StreamWriter(fileName, false))
             {
                 foreach (Day day in recordedDays)
                 {
-                    writer.WriteLine($"{day.Date.ToString("dd.MM.yyyy")} | {day.StartTime.ToString("HH:mm:ss")} - {day.EndTime.ToString("HH:mm:ss")}");
+                    writer.WriteLine(FullDayLogString(day));
                 }
 
-                writer.Write($"{doubleDay.Date.ToString("dd.MM.yyyy")} | {doubleDay.StartTime.ToString("HH:mm:ss")} - ");
+                writer.Write(CurrentDayLogString(doubleDay));
             }
         }
 
@@ -148,6 +159,22 @@ namespace DesktopAppWorkingTime.Models
         public static bool IsFirstTimeRecordToday()
         {
             return !GetRecordedDays().Exists(x => x.Date == DateTime.Today);
+        }
+
+        public static void UpdateDay(Day updatedDay)
+        {
+            List<Day> recordedDays = GetRecordedDays();
+            recordedDays.Find(x => x.Date == updatedDay.Date);
+            recordedDays.Add(updatedDay);
+            recordedDays.OrderBy(x => x.Date);
+
+            using (StreamWriter writer = new StreamWriter(fileName, false))
+            {
+                foreach (Day day in recordedDays)
+                {
+                    writer.WriteLine();
+                }
+            }
         }
     }
 }

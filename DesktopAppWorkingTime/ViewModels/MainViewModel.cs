@@ -20,10 +20,7 @@ namespace DesktopAppWorkingTime.ViewModels
             //    File.Create(LogOperations.fileName);
             //}
 
-            if (!LogOperations.GetRecordedDays().Exists(x => x.Date == DateTime.Today))
-            {
-                LogOperations.RecordStartTime();
-            }
+            LogOperations.RecordStartTime();
 
             SystemEvents.SessionEnding += SystemEvents_SessionEnding;
         }
