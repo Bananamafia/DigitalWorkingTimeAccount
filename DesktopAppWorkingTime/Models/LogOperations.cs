@@ -15,11 +15,11 @@ namespace DesktopAppWorkingTime.Models
 
         private static string FullDayLogString(Day selectedDay)
         {
-            return $"{selectedDay.Date.ToString("dd.MM.yyyy")} | {selectedDay.StartTime.ToString("HH:mm:ss")} - {selectedDay.EndTime.ToString("HH:mm:ss")}";
+            return $"{selectedDay.Date.ToString("dd.MM.yyyy")} | {selectedDay.LunchInMin.Minutes} | {selectedDay.StartTime.ToString("HH:mm:ss")} - {selectedDay.EndTime.ToString("HH:mm:ss")}";
         }
         private static string CurrentDayLogString(Day selectedDay)
         {
-            return $"{selectedDay.Date.ToString("dd.MM.yyyy")} | {selectedDay.StartTime.ToString("HH:mm:ss")} - ";
+            return $"{selectedDay.Date.ToString("dd.MM.yyyy")} | {selectedDay.LunchInMin.Minutes} | {selectedDay.StartTime.ToString("HH:mm:ss")} - ";
         }
 
         private static void UseStreamWriter(string text, bool newLine, bool append)
@@ -122,8 +122,9 @@ namespace DesktopAppWorkingTime.Models
                     Day selectedDay = new Day
                     {
                         Date = Convert.ToDateTime(entries[0]),
-                        StartTime = Convert.ToDateTime(entries[1]),
-                        EndTime = Convert.ToDateTime(entries[2])
+                        StartTime = Convert.ToDateTime(entries[2]),
+                        LunchInMin = new TimeSpan(0, Convert.ToInt32(entries[1]), 0),
+                        EndTime = Convert.ToDateTime(entries[3])
                     };
 
                     recordedDays.Add(selectedDay);
@@ -133,7 +134,8 @@ namespace DesktopAppWorkingTime.Models
                     Day selectedDay = new Day
                     {
                         Date = Convert.ToDateTime(entries[0]),
-                        StartTime = Convert.ToDateTime(entries[1])
+                        StartTime = Convert.ToDateTime(entries[2]),
+                        LunchInMin = new TimeSpan(0, Convert.ToInt32(entries[1]), 0)
                     };
 
                     recordedDays.Add(selectedDay);

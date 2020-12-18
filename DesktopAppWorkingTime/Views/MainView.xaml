@@ -34,7 +34,7 @@
                     <TextBlock TextDecorations="underline"
                                Text="Stundensaldo vom" />
                     <TextBlock Padding="1,0"
-                        TextDecorations="underline"
+                               TextDecorations="underline"
                                Text="{Binding YesterdaysDate}" />
                     <TextBlock TextDecorations="underline"
                                Text=":" />
@@ -72,8 +72,7 @@
                            Text="Mittagspause:" />
                 <StackPanel Orientation="Horizontal"
                             Margin="0,3,0,10">
-                    <TextBox IsEnabled="False"
-                             Padding="2,0"
+                    <TextBox Padding="2,0"
                              Text="{Binding LunchInMin}" />
                     <!--<TextBox Text="45" />-->
                     <TextBlock Margin="3,0"
