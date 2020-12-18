@@ -14,16 +14,17 @@ namespace DesktopAppWorkingTime.ViewModels
     {
         public MainViewModel()
         {
-            //string logPath = @$"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\Stempeluhr";
+            string logPath = @$"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\Stempeluhr";
+            Directory.CreateDirectory(logPath);
 
-            //Directory.CreateDirectory(logPath);
-
-            //if (!File.Exists($@"{logPath}\log.txt"))
-            //{
-            //    File.Create($@"{logPath}\log.txt");
-            //}
-
-            LogOperations.RecordStartTime();
+            try
+            {
+                LogOperations.RecordStartTime();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
 
             SystemEvents.SessionEnding += SystemEvents_SessionEnding;
 
@@ -41,7 +42,7 @@ namespace DesktopAppWorkingTime.ViewModels
             _currentBalance = LogOperations.GetBalanceExcludingToday();
 
             try
-            {
+            {                
                 Day selectedDay = LogOperations.GetSelectedDay(CurrentDate);
 
                 _startTimeHour = selectedDay.StartTime.ToString("HH");
@@ -52,7 +53,7 @@ namespace DesktopAppWorkingTime.ViewModels
                 _endTimeHour = selectedDay.EndTime.ToString("HH");
                 _endTimeMin = selectedDay.EndTime.ToString("mm");
             }
-            catch (NullReferenceException e)
+            catch (NullReferenceException)
             {
                 _startTimeHour = "N/A";
                 _startTimeMin = "N/A";
@@ -98,7 +99,10 @@ namespace DesktopAppWorkingTime.ViewModels
         private TimeSpan _currentBalance;
         public TimeSpan CurrentBalance
         {
-            get { return _currentBalance; }
+            get
+            {
+                return _currentBalance;
+            }
             set
             {
                 _currentBalance = value;
@@ -118,7 +122,6 @@ namespace DesktopAppWorkingTime.ViewModels
                 _startTimeHour = value;
                 OnPropertyChanged("StartTimeHour");
                 OnPropertyChanged("UpdateTimesCommand");
-                OnPropertyChanged("CurrentBalance");
             }
         }
 
@@ -134,7 +137,6 @@ namespace DesktopAppWorkingTime.ViewModels
                 _startTimeMin = value;
                 OnPropertyChanged("StartTimeMin");
                 OnPropertyChanged("UpdateTimesCommand");
-                OnPropertyChanged("CurrentBalance");
             }
         }
 
@@ -150,7 +152,6 @@ namespace DesktopAppWorkingTime.ViewModels
                 _lunchInMin = value;
                 OnPropertyChanged("LunchInMin");
                 OnPropertyChanged("UpdateTimesCommand");
-                OnPropertyChanged("CurrentBalance");
             }
         }
 
@@ -166,7 +167,6 @@ namespace DesktopAppWorkingTime.ViewModels
                 _endTimeHour = value;
                 OnPropertyChanged("EndTimeHour");
                 OnPropertyChanged("UpdateTimesCommand");
-                OnPropertyChanged("CurrentBalance");
             }
         }
 
@@ -182,7 +182,6 @@ namespace DesktopAppWorkingTime.ViewModels
                 _endTimeMin = value;
                 OnPropertyChanged("EndTimeMin");
                 OnPropertyChanged("UpdateTimesCommand");
-                OnPropertyChanged("CurrentBalance");
             }
         }
 

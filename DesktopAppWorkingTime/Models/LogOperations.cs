@@ -8,10 +8,10 @@ namespace DesktopAppWorkingTime.Models
 {
     class LogOperations
     {
-        //private static string logPath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\Stempeluhr";
-        //private static string fileName = $@"{logPath}\log.txt";
+        private static string logPath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\Stempeluhr";
+        private static string fileName = $@"{logPath}\log.txt";
         //static string logPath = AppDomain.CurrentDomain.BaseDirectory;
-        private static string fileName = @"C:\Users\maxim\Desktop\StempelUhr\Zeiten.txt";
+        //private static string fileName = @"C:\Users\maxim\Desktop\StempelUhr\Zeiten.txt";
 
         //---Helpers---
         private static string FullDayLogString(Day selectedDay)
@@ -24,7 +24,19 @@ namespace DesktopAppWorkingTime.Models
         }
         private static bool IsFirstTimeRecordToday()
         {
-            return !GetRecordedDays().Exists(x => x.Date == DateTime.Today);
+            try
+            {
+                return !GetRecordedDays().Exists(x => x.Date == DateTime.Today);
+            }
+            catch (System.IO.IOException)
+            {
+                return true;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+                return false;
+            }
         }
 
         private static void UseStreamWriter(string text, bool newLine, bool append)
@@ -64,7 +76,7 @@ namespace DesktopAppWorkingTime.Models
 
                     recordedDays.Add(selectedDay);
                 }
-                catch (IndexOutOfRangeException e)
+                catch (IndexOutOfRangeException)
                 {
                     Day selectedDay = new Day
                     {
