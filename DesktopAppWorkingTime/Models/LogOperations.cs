@@ -9,19 +9,31 @@ namespace DesktopAppWorkingTime.Models
     {
         //private static string logPath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\Stempeluhr";
         //private static string fileName = $@"{logPath}\log.txt";
-
-        static string logPath = AppDomain.CurrentDomain.BaseDirectory;
-        //public static string fileName = $@"{logPath}\cache\log.txt";
+        //static string logPath = AppDomain.CurrentDomain.BaseDirectory;
         public static string fileName = @"C:\Users\maxim\Desktop\StempelUhr\Zeiten.txt";
 
         private static string FullDayLogString(Day selectedDay)
         {
             return $"{selectedDay.Date.ToString("dd.MM.yyyy")} | {selectedDay.StartTime.ToString("HH:mm:ss")} - {selectedDay.EndTime.ToString("HH:mm:ss")}";
         }
-
         private static string CurrentDayLogString(Day selectedDay)
         {
             return $"{selectedDay.Date.ToString("dd.MM.yyyy")} | {selectedDay.StartTime.ToString("HH:mm:ss")} - ";
+        }
+
+        private static void UseStreamWriter(string text, bool newLine, bool append)
+        {
+            using (StreamWriter writer = new StreamWriter(fileName, append))
+            {
+                if (newLine)
+                {
+                    writer.WriteLine(text);
+                }
+                else
+                {
+                    writer.Write(text);
+                }
+            }
         }
 
         public static void RecordStartTime()
