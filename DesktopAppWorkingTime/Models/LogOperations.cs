@@ -153,6 +153,10 @@ namespace DesktopAppWorkingTime.Models
             {
                 recordedDays.Add(updatedDay);
             }
+            else
+            {
+                currentDay = updatedDay;
+            }
 
             recordedDays = recordedDays.OrderBy(x => x.Date).ToList();
 
