@@ -39,13 +39,15 @@ namespace DesktopAppWorkingTime.ViewModels
         {
             _currentBalance = LogOperations.GetBalanceExcludingToday();
 
-            _startTimeHour = LogOperations.GetSelectedDay(CurrentDate).StartTime.ToString("HH");
-            _startTimeMin = LogOperations.GetSelectedDay(CurrentDate).StartTime.ToString("mm");
+            Day selectedDay = LogOperations.GetSelectedDay(CurrentDate);
 
-            _lunchInMin = LogOperations.GetSelectedDay(CurrentDate).LunchInMin.Minutes;
+            _startTimeHour = selectedDay.StartTime.ToString("HH");
+            _startTimeMin = selectedDay.StartTime.ToString("mm");
 
-            _endTimeHour = LogOperations.GetSelectedDay(CurrentDate).EndTime.ToString("HH");
-            _endTimeMin = LogOperations.GetSelectedDay(CurrentDate).EndTime.ToString("mm");
+            _lunchInMin = selectedDay.LunchInMin.Minutes;
+
+            _endTimeHour = selectedDay.EndTime.ToString("HH");
+            _endTimeMin = selectedDay.EndTime.ToString("mm");
         }
 
         //---Properties---
