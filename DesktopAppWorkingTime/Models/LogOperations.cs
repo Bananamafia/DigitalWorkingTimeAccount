@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Windows;
 
 namespace DesktopAppWorkingTime.Models
 {
@@ -42,10 +43,7 @@ namespace DesktopAppWorkingTime.Models
 
             if (IsFirstTimeRecordToday())
             {
-                using (StreamWriter writer = new StreamWriter(fileName, true))
-                {
-                    writer.Write(CurrentDayLogString(newDay));
-                }
+                UseStreamWriter(CurrentDayLogString(newDay), false, true);
             }
             else
             {
@@ -55,12 +53,7 @@ namespace DesktopAppWorkingTime.Models
 
         public static void RecordEndTime()
         {
-            DateTime endTime = DateTime.Now;
-
-            using (StreamWriter writer = new StreamWriter(fileName, true))
-            {
-                writer.WriteLine(endTime.ToString("HH:mm:ss"));
-            }
+            UseStreamWriter(DateTime.Now.ToString("HH:mm:ss"), true, true);
         }
 
         public static void RemoveEndTime()
@@ -72,15 +65,13 @@ namespace DesktopAppWorkingTime.Models
             recordedDays.RemoveAll(x => x.Date == doubleDay.Date);
             recordedDays = recordedDays.OrderBy(x => x.Date).ToList();
 
-            using (StreamWriter writer = new StreamWriter(fileName, false))
-            {
-                foreach (Day day in recordedDays)
-                {
-                    writer.WriteLine(FullDayLogString(day));
-                }
+            File.Delete(fileName);
 
-                writer.Write(CurrentDayLogString(doubleDay));
+            foreach (Day day in recordedDays)
+            {
+                UseStreamWriter(FullDayLogString(day), true, true);
             }
+            UseStreamWriter(CurrentDayLogString(doubleDay), false, true);
         }
 
         public static TimeSpan GetTotatalBalance()
@@ -119,38 +110,34 @@ namespace DesktopAppWorkingTime.Models
 
         public static List<Day> GetRecordedDays()
         {
-            List<string> lines = new List<string>();
-
-            try
-            {
-                lines = File.ReadAllLines(fileName).ToList();
-            }
-            catch
-            {
-                return null;
-            }
-
+            List<string> lines = File.ReadAllLines(fileName).ToList();
             List<Day> recordedDays = new List<Day>();
 
-
-            foreach (var line in lines)
+            foreach (string line in lines)
             {
                 string[] entries = line.Split('|', '-');
 
-                Day selectedDay = new Day();
-                selectedDay.Date = Convert.ToDateTime(entries[0]);
-                selectedDay.StartTime = Convert.ToDateTime(entries[1]);
-
                 try
                 {
-                    selectedDay.EndTime = Convert.ToDateTime(entries[2]);
+                    Day selectedDay = new Day
+                    {
+                        Date = Convert.ToDateTime(entries[0]),
+                        StartTime = Convert.ToDateTime(entries[1]),
+                        EndTime = Convert.ToDateTime(entries[2])
+                    };
+
+                    recordedDays.Add(selectedDay);
                 }
                 catch
                 {
-                    selectedDay.EndTime = DateTime.Now;
-                }
+                    Day selectedDay = new Day
+                    {
+                        Date = Convert.ToDateTime(entries[0]),
+                        StartTime = Convert.ToDateTime(entries[1])
+                    };
 
-                recordedDays.Add(selectedDay);
+                    recordedDays.Add(selectedDay);
+                }
             }
 
             return recordedDays;
@@ -166,7 +153,6 @@ namespace DesktopAppWorkingTime.Models
             {
                 return new Day();
             }
-
         }
 
         public static bool IsFirstTimeRecordToday()
@@ -191,14 +177,12 @@ namespace DesktopAppWorkingTime.Models
 
             recordedDays = recordedDays.OrderBy(x => x.Date).ToList();
 
-            using (StreamWriter writer = new StreamWriter(fileName, false))
+            File.Delete(fileName);
+            foreach (Day day in recordedDays)
             {
-                foreach (Day day in recordedDays)
-                {
-                    writer.WriteLine(FullDayLogString(day));
-                }
-                writer.Write(CurrentDayLogString(currentDay));
+                UseStreamWriter(FullDayLogString(day), true, true);
             }
+            UseStreamWriter(CurrentDayLogString(currentDay), false, true);
         }
     }
 }
