@@ -11,15 +11,20 @@ namespace DesktopAppWorkingTime.Models
         //private static string logPath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\Stempeluhr";
         //private static string fileName = $@"{logPath}\log.txt";
         //static string logPath = AppDomain.CurrentDomain.BaseDirectory;
-        public static string fileName = @"C:\Users\maxim\Desktop\StempelUhr\Zeiten.txt";
+        private static string fileName = @"C:\Users\maxim\Desktop\StempelUhr\Zeiten.txt";
 
+        //---Helpers---
         private static string FullDayLogString(Day selectedDay)
         {
             return $"{selectedDay.Date.ToString("dd.MM.yyyy")} | {selectedDay.LunchInMin.Minutes} | {selectedDay.StartTime.ToString("HH:mm:ss")} - {selectedDay.EndTime.ToString("HH:mm:ss")}";
         }
         private static string CurrentDayLogString(Day selectedDay)
         {
-            return $"{selectedDay.Date.ToString("dd.MM.yyyy")} | {selectedDay.LunchInMin.Minutes} | {selectedDay.StartTime.ToString("HH:mm:ss")} - ";
+            return $"{selectedDay.Date.ToString("dd.MM.yyyy")} | {selectedDay.LunchInMin.Minutes} | {selectedDay.StartTime.ToString("HH:mm:ss")}";
+        }
+        private static bool IsFirstTimeRecordToday()
+        {
+            return !GetRecordedDays().Exists(x => x.Date == DateTime.Today);
         }
 
         private static void UseStreamWriter(string text, bool newLine, bool append)
@@ -37,76 +42,6 @@ namespace DesktopAppWorkingTime.Models
             }
         }
 
-        public static void RecordStartTime()
-        {
-            Day newDay = new Day { Date = DateTime.Today, StartTime = DateTime.Now };
-
-            if (IsFirstTimeRecordToday())
-            {
-                UseStreamWriter(CurrentDayLogString(newDay), false, true);
-            }
-            else
-            {
-                RemoveEndTime();
-            }
-        }
-
-        public static void RecordEndTime()
-        {
-            UseStreamWriter(DateTime.Now.ToString("HH:mm:ss"), true, true);
-        }
-
-        public static void RemoveEndTime()
-        {
-            List<Day> recordedDays = GetRecordedDays();
-
-            Day doubleDay = GetSelectedDay(DateTime.Today);
-
-            recordedDays.RemoveAll(x => x.Date == doubleDay.Date);
-            recordedDays = recordedDays.OrderBy(x => x.Date).ToList();
-
-            File.Delete(fileName);
-
-            foreach (Day day in recordedDays)
-            {
-                UseStreamWriter(FullDayLogString(day), true, true);
-            }
-            UseStreamWriter(CurrentDayLogString(doubleDay), false, true);
-        }
-
-        public static TimeSpan GetTotatalBalance()
-        {
-            TimeSpan balance;
-
-            TimeSpan reference = new TimeSpan(GetRecordedDays().Count() * 8, 0, 0);
-
-            TimeSpan actual = new TimeSpan(0, 0, 0);
-            foreach (Day day in GetRecordedDays())
-            {
-                actual += day.Balance;
-            }
-
-            balance = actual - reference;
-            return new TimeSpan(balance.Hours, balance.Minutes, balance.Seconds);
-        }
-
-        public static TimeSpan GetBalanceExcludingToday()
-        {
-            TimeSpan balance;
-            List<Day> recordedDaysWithoutToday = GetRecordedDays();
-            recordedDaysWithoutToday.Remove(recordedDaysWithoutToday.Last());
-
-            TimeSpan reference = new TimeSpan(recordedDaysWithoutToday.Count() * 8, 0, 0);
-
-            TimeSpan actual = new TimeSpan(0, 0, 0);
-            foreach (Day day in recordedDaysWithoutToday)
-            {
-                actual += day.Balance;
-            }
-
-            balance = actual - reference;
-            return new TimeSpan(balance.Hours, balance.Minutes, balance.Seconds);
-        }
 
         public static List<Day> GetRecordedDays()
         {
@@ -129,7 +64,7 @@ namespace DesktopAppWorkingTime.Models
 
                     recordedDays.Add(selectedDay);
                 }
-                catch
+                catch (IndexOutOfRangeException e)
                 {
                     Day selectedDay = new Day
                     {
@@ -140,26 +75,72 @@ namespace DesktopAppWorkingTime.Models
 
                     recordedDays.Add(selectedDay);
                 }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
             }
 
             return recordedDays;
         }
-
         public static Day GetSelectedDay(DateTime selectedDate)
         {
-            if (GetRecordedDays().Exists(x => x.Date == selectedDate))
+            return GetRecordedDays().Find(x => x.Date == selectedDate);
+        }
+
+        public static void RecordStartTime()
+        {
+            Day newDay = new Day { Date = DateTime.Today, StartTime = DateTime.Now };
+
+            if (IsFirstTimeRecordToday())
             {
-                return GetRecordedDays().Find(x => x.Date == selectedDate);
+                UseStreamWriter(CurrentDayLogString(newDay), false, true);
             }
             else
             {
-                return new Day();
+                RemoveEndTime();
             }
         }
 
-        public static bool IsFirstTimeRecordToday()
+        public static void RecordEndTime()
         {
-            return !GetRecordedDays().Exists(x => x.Date == DateTime.Today);
+            UseStreamWriter($" - {DateTime.Now.ToString("HH:mm:ss")}", true, true);
+        }
+
+        private static void RemoveEndTime()
+        {
+            List<Day> recordedDays = GetRecordedDays();
+
+            Day doubleDay = GetSelectedDay(DateTime.Today);
+
+            recordedDays.RemoveAll(x => x.Date == doubleDay.Date);
+            recordedDays = recordedDays.OrderBy(x => x.Date).ToList();
+
+            File.Delete(fileName);
+
+            foreach (Day day in recordedDays)
+            {
+                UseStreamWriter(FullDayLogString(day), true, true);
+            }
+            UseStreamWriter(CurrentDayLogString(doubleDay), false, true);
+        }
+
+        public static TimeSpan GetBalanceExcludingToday()
+        {
+            TimeSpan balance;
+            List<Day> recordedDaysWithoutToday = GetRecordedDays();
+            recordedDaysWithoutToday.Remove(recordedDaysWithoutToday.Last());
+
+            TimeSpan reference = new TimeSpan(recordedDaysWithoutToday.Count() * 8, 0, 0);
+
+            TimeSpan actual = new TimeSpan(0, 0, 0);
+            foreach (Day day in recordedDaysWithoutToday)
+            {
+                actual += day.Balance;
+            }
+
+            balance = actual - reference;
+            return new TimeSpan(balance.Hours, balance.Minutes, balance.Seconds);
         }
 
         public static void UpdateDay(Day updatedDay)
@@ -171,10 +152,6 @@ namespace DesktopAppWorkingTime.Models
             if (!(updatedDay.Date == DateTime.Today))
             {
                 recordedDays.Add(updatedDay);
-            }
-            else
-            {
-                currentDay = updatedDay;
             }
 
             recordedDays = recordedDays.OrderBy(x => x.Date).ToList();

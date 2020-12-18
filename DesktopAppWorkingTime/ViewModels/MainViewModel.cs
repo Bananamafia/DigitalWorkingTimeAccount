@@ -6,6 +6,7 @@ using DesktopAppWorkingTime.ViewModels.Commands;
 using Microsoft.Win32;
 using System.IO;
 using System.ComponentModel;
+using System.Windows;
 
 namespace DesktopAppWorkingTime.ViewModels
 {
@@ -39,15 +40,33 @@ namespace DesktopAppWorkingTime.ViewModels
         {
             _currentBalance = LogOperations.GetBalanceExcludingToday();
 
-            Day selectedDay = LogOperations.GetSelectedDay(CurrentDate);
+            try
+            {
+                Day selectedDay = LogOperations.GetSelectedDay(CurrentDate);
 
-            _startTimeHour = selectedDay.StartTime.ToString("HH");
-            _startTimeMin = selectedDay.StartTime.ToString("mm");
+                _startTimeHour = selectedDay.StartTime.ToString("HH");
+                _startTimeMin = selectedDay.StartTime.ToString("mm");
 
-            _lunchInMin = selectedDay.LunchInMin.Minutes;
+                _lunchInMin = selectedDay.LunchInMin.Minutes;
 
-            _endTimeHour = selectedDay.EndTime.ToString("HH");
-            _endTimeMin = selectedDay.EndTime.ToString("mm");
+                _endTimeHour = selectedDay.EndTime.ToString("HH");
+                _endTimeMin = selectedDay.EndTime.ToString("mm");
+            }
+            catch (NullReferenceException e)
+            {
+                _startTimeHour = "N/A";
+                _startTimeMin = "N/A";
+
+                _lunchInMin = 45;
+
+                _endTimeHour = "N/A";
+                _endTimeMin = "N/A";
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+
         }
 
         //---Properties---
