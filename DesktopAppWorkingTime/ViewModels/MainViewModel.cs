@@ -42,7 +42,7 @@ namespace DesktopAppWorkingTime.ViewModels
             _currentBalance = LogOperations.GetBalanceExcludingToday();
 
             try
-            {                
+            {
                 Day selectedDay = LogOperations.GetSelectedDay(CurrentDate);
 
                 _startTimeHour = selectedDay.StartTime.ToString("HH");
@@ -191,13 +191,31 @@ namespace DesktopAppWorkingTime.ViewModels
         {
             get
             {
-                DateTime StartTime = new DateTime(CurrentDate.Year, CurrentDate.Month, CurrentDate.Day, Convert.ToInt32(StartTimeHour), Convert.ToInt32(StartTimeMin), 0);
-                DateTime EndTime = new DateTime(CurrentDate.Year, CurrentDate.Month, CurrentDate.Day, Convert.ToInt32(EndTimeHour), Convert.ToInt32(EndTimeMin), 0);
-                TimeSpan LunchTime = new TimeSpan(0, LunchInMin, 0);
+                try
+                {
+                    DateTime StartTime = new DateTime(CurrentDate.Year, CurrentDate.Month, CurrentDate.Day, Convert.ToInt32(StartTimeHour), Convert.ToInt32(StartTimeMin), 0);
+                    DateTime EndTime = new DateTime(CurrentDate.Year, CurrentDate.Month, CurrentDate.Day, Convert.ToInt32(EndTimeHour), Convert.ToInt32(EndTimeMin), 0);
+                    TimeSpan LunchTime = new TimeSpan(0, LunchInMin, 0);
 
-                _updateTimesCommand = new UpdateTimesCommand(new Day { Date = CurrentDate, StartTime = StartTime, EndTime = EndTime, LunchInMin = LunchTime });
+                    _updateTimesCommand = new UpdateTimesCommand(new Day { Date = CurrentDate, StartTime = StartTime, EndTime = EndTime, LunchInMin = LunchTime });
 
-                return _updateTimesCommand;
+                    return _updateTimesCommand;
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    MessageBox.Show("Mindestens eine Angabe liegt außerhalb des vorhergesehen Bereichs.\nStundenangaben: 0-23\nMinutenangaben: 0-59");
+                    return null;
+                }
+                catch (FormatException)
+                {
+                    MessageBox.Show("Bitte geben Sie alle Werte als ganze Zahl an.\nStundenangaben: 0-23\nMinutenangaben: 0-59");
+                    return null;
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                    return null;
+                }
             }
         }
 
