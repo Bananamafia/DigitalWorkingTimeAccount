@@ -6,9 +6,52 @@
         xmlns:local="clr-namespace:DesktopAppWorkingTime.Views"
         xmlns:vm="clr-namespace:DesktopAppWorkingTime.ViewModels"
         mc:Ignorable="d"
-        Title="Stempeluhr"
-        Height="320"
-        Width="225">
+        Title="What's Time"
+        Height="340"
+        Width="250">
+
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize"
+                    Value="14" />
+        </Style>
+
+        <Style TargetType="{x:Type TextBox}">
+            <Setter Property="BorderBrush"
+                    Value="#abbfcf" />
+
+            <Style.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius"
+                            Value="3" />
+                </Style>
+            </Style.Resources>
+        </Style>
+
+        <Style TargetType="DatePicker">
+            <Setter Property="BorderBrush"
+                    Value="#abbfcf" />
+
+            <Style.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius"
+                            Value="3" />
+                </Style>
+            </Style.Resources>
+        </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="FontWeight"
+                    Value="Bold" />
+            <Style.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius"
+                            Value="3" />
+                </Style>
+            </Style.Resources>
+        </Style>
+    </Window.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10px" />
@@ -16,36 +59,36 @@
             <ColumnDefinition Width="10px" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="10px" />
+            <RowDefinition Height="7px" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="10px" />
+            <RowDefinition Height="18px" />
         </Grid.RowDefinitions>
-
 
         <StackPanel Grid.Column="1"
                     Grid.Row="1">
 
-            <DatePicker FontSize="20"
-                        SelectedDate="{Binding CurrentDate}" />
-
             <StackPanel x:Name="BalanceStackPanel">
-                <StackPanel Orientation="Horizontal"
-                            Margin="0,10,0,0">
+                <StackPanel Orientation="Horizontal">
                     <TextBlock TextDecorations="underline"
                                Text="Stundensaldo vom" />
-                    <TextBlock Padding="1,0"
+                    <TextBlock Padding="2,0"
+                               FontSize="14"
                                TextDecorations="underline"
                                Text="{Binding YesterdaysDate}" />
                     <TextBlock TextDecorations="underline"
                                Text=":" />
                 </StackPanel>
-                <StackPanel Margin="0,3,0,10"
+                <StackPanel Margin="0,3,0,7"
                             Orientation="Horizontal">
                     <TextBlock Text="{Binding CurrentBalance}" />
                     <TextBlock Margin="3,0,0,0"
                                Text="h" />
                 </StackPanel>
             </StackPanel>
+
+            <DatePicker FontSize="16"
+                        SelectedDate="{Binding CurrentDate}"
+                        Margin="0,8,0,5" />
 
             <StackPanel x:Name="StartTimeStackPanel">
                 <TextBlock TextDecorations="underline"
@@ -116,6 +159,17 @@
 
 
         </StackPanel>
+
+        <TextBlock Grid.Column="1"
+                   Grid.Row="2"
+                   HorizontalAlignment="Right"
+                   Foreground="Gray"
+                   FontSize="10"
+                   Margin="0,0,0,5"
+                   MouseLeftButtonDown="Secret_MouseLeftButtonDown">
+            © Maximilian Kiefer
+        </TextBlock>
+
 
     </Grid>
 </Window>
