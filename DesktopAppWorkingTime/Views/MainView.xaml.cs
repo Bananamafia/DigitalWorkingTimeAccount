@@ -47,5 +47,10 @@ namespace DesktopAppWorkingTime.Views
                 txtControl.SelectAll();
             }));
         }
+
+        private void Secret_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.Hide();
+        }
     }
 }
