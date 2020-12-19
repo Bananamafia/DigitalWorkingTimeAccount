@@ -55,13 +55,13 @@ namespace DesktopAppWorkingTime.ViewModels
             }
             catch (NullReferenceException)
             {
-                _startTimeHour = "N/A";
-                _startTimeMin = "N/A";
+                _startTimeHour = "00";
+                _startTimeMin = "00";
 
                 _lunchInMin = 45;
 
-                _endTimeHour = "N/A";
-                _endTimeMin = "N/A";
+                _endTimeHour = "00";
+                _endTimeMin = "00";
             }
             catch (Exception e)
             {
