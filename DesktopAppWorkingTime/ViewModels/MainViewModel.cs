@@ -197,7 +197,7 @@ namespace DesktopAppWorkingTime.ViewModels
                     DateTime EndTime = new DateTime(CurrentDate.Year, CurrentDate.Month, CurrentDate.Day, Convert.ToInt32(EndTimeHour), Convert.ToInt32(EndTimeMin), 0);
                     TimeSpan LunchTime = new TimeSpan(0, LunchInMin, 0);
 
-                    _updateTimesCommand = new UpdateTimesCommand(new Day { Date = CurrentDate, StartTime = StartTime, EndTime = EndTime, LunchInMin = LunchTime });
+                    _updateTimesCommand = new UpdateTimesCommand(new Day { Date = CurrentDate, StartTime = StartTime, EndTime = EndTime, LunchInMin = LunchTime }, UpdateBalance);
 
                     return _updateTimesCommand;
                 }
@@ -219,6 +219,10 @@ namespace DesktopAppWorkingTime.ViewModels
             }
         }
 
+        private void UpdateBalance()
+        {
+            CurrentBalance = LogOperations.GetBalanceExcludingToday();
+        }
 
         //---INotifyPropertyChanged---
         public event PropertyChangedEventHandler PropertyChanged;

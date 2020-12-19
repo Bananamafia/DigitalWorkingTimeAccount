@@ -10,10 +10,12 @@ namespace DesktopAppWorkingTime.ViewModels.Commands
     class UpdateTimesCommand : ICommand
     {
         private Day SelectedDay { get; set; }
+        private Action UpdateUI { get; set; }
 
-        public UpdateTimesCommand(Day selectedDay)
+        public UpdateTimesCommand(Day selectedDay, Action updateUIAction)
         {
             SelectedDay = selectedDay;
+            UpdateUI = updateUIAction;
         }
 
         public event EventHandler CanExecuteChanged;
@@ -27,6 +29,7 @@ namespace DesktopAppWorkingTime.ViewModels.Commands
         public void Execute(object parameter)
         {
             LogOperations.UpdateDay(SelectedDay);
+            UpdateUI.Invoke();
         }
     }
 }
