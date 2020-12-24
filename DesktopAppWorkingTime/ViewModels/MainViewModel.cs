@@ -19,7 +19,15 @@ namespace DesktopAppWorkingTime.ViewModels
 
             try
             {
-                LogOperations.RecordStartTime();
+                if (LogOperations.WasEndtimeRecorded())
+                {
+                    LogOperations.RecordStartTime();
+                }
+                else
+                {
+                    //RecordEndTime(LastRecordedDay);
+                    LogOperations.RecordStartTime();
+                }
             }
             catch (Exception e)
             {

@@ -38,6 +38,19 @@ namespace DesktopAppWorkingTime.Models
                 return false;
             }
         }
+        public static bool WasEndtimeRecorded()
+        {
+            Day lastRecordedDate = GetRecordedDays().Last();
+
+            if (lastRecordedDate.EndTime == new DateTime())
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
 
         private static void UseStreamWriter(string text, bool newLine, bool append)
         {
@@ -117,6 +130,11 @@ namespace DesktopAppWorkingTime.Models
         public static void RecordEndTime()
         {
             UseStreamWriter($" - {DateTime.Now.ToString("HH:mm:ss")}", true, true);
+        }
+
+        public static void RecordEndTime(DateTime endTime)
+        {
+            UseStreamWriter($" - {endTime.ToString("HH:mm:ss")}", true, true);
         }
 
         private static void RemoveEndTime()
