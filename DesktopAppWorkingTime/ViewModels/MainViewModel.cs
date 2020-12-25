@@ -7,6 +7,7 @@ using Microsoft.Win32;
 using System.IO;
 using System.ComponentModel;
 using System.Windows;
+using System.Linq;
 
 namespace DesktopAppWorkingTime.ViewModels
 {
@@ -25,7 +26,9 @@ namespace DesktopAppWorkingTime.ViewModels
                 }
                 else
                 {
-                    //RecordEndTime(LastRecordedDay);
+                    MessageBox.Show($"Endzeit vom {LogOperations.GetRecordedDays().Last().Date.ToString("dd.MM.yyyy")} konnte nicht ermittelt werden. Bitte tragen Sie diese nach.");
+                    LogOperations.RecordEndTime(new DateTime { });
+                    CurrentDate = LogOperations.GetRecordedDays().Last().Date;
                     LogOperations.RecordStartTime();
                 }
             }
