@@ -24,6 +24,10 @@ namespace DesktopAppWorkingTime.ViewModels
                 {
                     LogOperations.RecordStartTime();
                 }
+                else if (LogOperations.GetRecordedDays().Last().Date == DateTime.Today)
+                {
+                    MessageBox.Show("Willkommen zurück!");
+                }
                 else
                 {
                     MessageBox.Show($"Endzeit vom {LogOperations.GetRecordedDays().Last().Date.ToString("dd.MM.yyyy")} konnte nicht ermittelt werden. Bitte tragen Sie diese nach.");
