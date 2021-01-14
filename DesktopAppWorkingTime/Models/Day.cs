@@ -13,8 +13,8 @@ namespace DesktopAppWorkingTime.Models
 
         public DateTime EndTime { get; set; }
 
-        private TimeSpan _lunchInMin = new TimeSpan(0, 45, 0);
-        public TimeSpan LunchInMin
+        private int _lunchInMin = 45;
+        public int LunchInMin
         {
             get { return _lunchInMin; }
             set
@@ -27,7 +27,7 @@ namespace DesktopAppWorkingTime.Models
         {
             get
             {
-                return EndTime - StartTime - LunchInMin;
+                return EndTime - StartTime - new TimeSpan(0, LunchInMin, 0);
             }
         }
     }

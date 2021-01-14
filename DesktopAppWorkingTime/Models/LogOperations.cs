@@ -10,17 +10,15 @@ namespace DesktopAppWorkingTime.Models
     {
         private static string logPath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\Stempeluhr";
         private static string fileName = $@"{logPath}\log.txt";
-        //static string logPath = AppDomain.CurrentDomain.BaseDirectory;
-        //private static string fileName = @"C:\Users\maxim\Desktop\StempelUhr\Zeiten.txt";
 
         //---Helpers---
         private static string FullDayLogString(Day selectedDay)
         {
-            return $"{selectedDay.Date.ToString("dd.MM.yyyy")} | {selectedDay.LunchInMin.Minutes} | {selectedDay.StartTime.ToString("HH:mm:ss")} - {selectedDay.EndTime.ToString("HH:mm:ss")}";
+            return $"{selectedDay.Date.ToString("dd.MM.yyyy")} | {selectedDay.LunchInMin} | {selectedDay.StartTime.ToString("HH:mm:ss")} - {selectedDay.EndTime.ToString("HH:mm:ss")}";
         }
         private static string CurrentDayLogString(Day selectedDay)
         {
-            return $"{selectedDay.Date.ToString("dd.MM.yyyy")} | {selectedDay.LunchInMin.Minutes} | {selectedDay.StartTime.ToString("HH:mm:ss")}";
+            return $"{selectedDay.Date.ToString("dd.MM.yyyy")} | {selectedDay.LunchInMin} | {selectedDay.StartTime.ToString("HH:mm:ss")}";
         }
         private static bool IsFirstTimeRecordToday()
         {
@@ -83,7 +81,7 @@ namespace DesktopAppWorkingTime.Models
                     {
                         Date = Convert.ToDateTime(entries[0]),
                         StartTime = Convert.ToDateTime(entries[2]),
-                        LunchInMin = new TimeSpan(0, Convert.ToInt32(entries[1]), 0),
+                        LunchInMin = Convert.ToInt32(entries[1]),
                         EndTime = Convert.ToDateTime(entries[3])
                     };
 
@@ -95,7 +93,7 @@ namespace DesktopAppWorkingTime.Models
                     {
                         Date = Convert.ToDateTime(entries[0]),
                         StartTime = Convert.ToDateTime(entries[2]),
-                        LunchInMin = new TimeSpan(0, Convert.ToInt32(entries[1]), 0)
+                        LunchInMin = Convert.ToInt32(entries[1])
                     };
 
                     recordedDays.Add(selectedDay);

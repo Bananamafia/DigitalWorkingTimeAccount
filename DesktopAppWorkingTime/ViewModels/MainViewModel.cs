@@ -59,7 +59,7 @@ namespace DesktopAppWorkingTime.ViewModels
                 _startTimeHour = selectedDay.StartTime.ToString("HH");
                 _startTimeMin = selectedDay.StartTime.ToString("mm");
 
-                _lunchInMin = selectedDay.LunchInMin.Minutes;
+                _lunchInMin = selectedDay.LunchInMin;
 
                 _endTimeHour = selectedDay.EndTime.ToString("HH");
                 _endTimeMin = selectedDay.EndTime.ToString("mm");
@@ -206,7 +206,7 @@ namespace DesktopAppWorkingTime.ViewModels
                 {
                     DateTime StartTime = new DateTime(CurrentDate.Year, CurrentDate.Month, CurrentDate.Day, Convert.ToInt32(StartTimeHour), Convert.ToInt32(StartTimeMin), 0);
                     DateTime EndTime = new DateTime(CurrentDate.Year, CurrentDate.Month, CurrentDate.Day, Convert.ToInt32(EndTimeHour), Convert.ToInt32(EndTimeMin), 0);
-                    TimeSpan LunchTime = new TimeSpan(0, LunchInMin, 0);
+                    int LunchTime = LunchInMin;
 
                     _updateTimesCommand = new UpdateTimesCommand(new Day { Date = CurrentDate, StartTime = StartTime, EndTime = EndTime, LunchInMin = LunchTime }, UpdateBalance);
 
