@@ -165,8 +165,7 @@
                    HorizontalAlignment="Right"
                    Foreground="Gray"
                    FontSize="10"
-                   Margin="0,0,0,5"
-                   MouseLeftButtonDown="Secret_MouseLeftButtonDown">
+                   Margin="0,0,0,5">
             © Maximilian Kiefer
         </TextBlock>
 

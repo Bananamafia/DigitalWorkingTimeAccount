@@ -12,6 +12,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Forms;
+using System.Drawing;
 
 namespace DesktopAppWorkingTime.Views
 {
@@ -33,24 +35,31 @@ namespace DesktopAppWorkingTime.Views
         protected override void OnClosing(CancelEventArgs e)
         {
             e.Cancel = true;
-
-            this.WindowState = WindowState.Minimized;
-
+            this.Hide();
             base.OnClosing(e);
+
+            System.Windows.Forms.NotifyIcon notificationIcon = new System.Windows.Forms.NotifyIcon();
+            notificationIcon.Icon = new System.Drawing.Icon("../../../Resources/Icon/time-16.ico");
+            notificationIcon.Visible = true;
+
+            notificationIcon.ShowBalloonTip(3000, "What's Time", "Programm wird im Hintergrund weiter ausgeführt.", ToolTipIcon.None);
+
+            notificationIcon.DoubleClick +=
+                delegate (object sender, EventArgs args)
+                {
+                    this.Show();
+                    this.WindowState = WindowState.Normal;
+                    notificationIcon.Visible = false;
+                };
         }
 
         private void TextBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            var txtControl = sender as TextBox;
+            var txtControl = sender as System.Windows.Controls.TextBox;
             txtControl.Dispatcher.BeginInvoke(new Action(() =>
             {
                 txtControl.SelectAll();
             }));
-        }
-
-        private void Secret_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            this.Hide();
         }
     }
 }
