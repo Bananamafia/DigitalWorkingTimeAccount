@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Forms;
 using System.Drawing;
+using System.IO;
 
 namespace DesktopAppWorkingTime.Views
 {
@@ -39,7 +40,8 @@ namespace DesktopAppWorkingTime.Views
             base.OnClosing(e);
 
             System.Windows.Forms.NotifyIcon notificationIcon = new System.Windows.Forms.NotifyIcon();
-            notificationIcon.Icon = new System.Drawing.Icon("../../../Resources/Icon/time-16.ico");
+            Stream iconStream = System.Windows.Application.GetResourceStream(new Uri("pack://application:,,,/Resources/Icon/time-16.ico")).Stream;
+            notificationIcon.Icon = new System.Drawing.Icon(iconStream);
             notificationIcon.Visible = true;
 
             notificationIcon.ShowBalloonTip(3000, "What's Time", "Programm wird im Hintergrund weiter ausgeführt.", ToolTipIcon.None);
