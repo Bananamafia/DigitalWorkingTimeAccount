@@ -6,6 +6,7 @@
     <UseWPF>true</UseWPF>
     <UseWindowsForms>true</UseWindowsForms>
     <ApplicationIcon>./Resources/Icon/time-16.ico</ApplicationIcon>
+    <AssemblyName>What's Time</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
